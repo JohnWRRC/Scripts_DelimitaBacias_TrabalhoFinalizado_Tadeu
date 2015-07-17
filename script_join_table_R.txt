@@ -1,0 +1,74 @@
+setwd("E:\\data_2015\\___john\\Tadeu_finlandia\\teste_r_pct-apagar_depois\\esc_3000")
+require(foreign)
+files=list.files(pattern='*.txt')
+
+
+
+
+tabela_junc_3000<-NULL
+for (i in files){
+		table<-read.table(i,sep=',',header=T)
+		
+		nome<-substr(i,7,20)
+		nome<-gsub(".txt", "",nome)
+		table$Id_basin<-as.numeric(nome)
+		
+		
+		tabela_junc_3000<-rbind(tabela_junc_3000,table)
+		}
+tabela_junc_3000_mata <- subset(tabela_junc_3000, id==2, select=c(pct_veg, Id_basin))
+tabela_junc_3000_basin <- subset(tabela_junc_3000, id==1, select=c(pct_veg, Id_basin))
+names(tabela_junc_3000_mata)<-c('pct_mata','Id_mata')
+names(tabela_junc_3000_basin)<-c('pct_basin','Id_basin')
+
+write.dbf(tabela_junc_3000_basin,"tabela_junc_3000_basin")
+write.dbf(tabela_junc_3000_mata,"tabela_junc_3000_mata")
+
+
+
+tabela_junc_5000<-NULL
+files=list.files(pattern='*.txt')
+for (i in files){
+		table<-read.table(i,sep=',',header=T)
+		
+		nome<-substr(i,7,20)
+		nome<-gsub(".txt", "",nome)
+		table$Id_basin<-as.numeric(nome)
+		
+		
+		tabela_junc_5000<-rbind(tabela_junc_5000,table)
+		}
+tabela_junc_5000_mata <- subset(tabela_junc_5000, id==2, select=c(pct_veg, Id_basin))
+tabela_junc_5000_basin <- subset(tabela_junc_5000, id==1, select=c(pct_veg, Id_basin))
+names(tabela_junc_5000_mata)<-c('pct_mata','Id_mata')
+names(tabela_junc_5000_basin)<-c('pct_basin','Id_basin')
+
+write.dbf(tabela_junc_5000_basin,"tabela_junc_5000_basin")
+write.dbf(tabela_junc_5000_mata,"tabela_junc_5000_mata")
+##########
+
+
+setwd("E:\\data_2015\\___john\\Tadeu_finlandia\\TXTs_PCT\\esc_3000")
+
+files=list.files(pattern='*.txt')
+tabela_junc_3000<-NULL
+for (i in files){
+		table<-read.table(i,sep=',',header=T)
+		
+		nome<-substr(i,7,20)
+		nome<-gsub(".txt", "",nome)
+		table$Id_basin<-as.numeric(nome)
+		
+		
+		tabela_junc_3000<-rbind(tabela_junc_3000,table)
+		}
+tabela_junc_3000_mata <- subset(tabela_junc_3000, id==2, select=c(pct_veg, Id_basin))
+tabela_junc_3000_basin <- subset(tabela_junc_3000, id==1, select=c(pct_veg, Id_basin))
+names(tabela_junc_3000_mata)<-c('pct_mata','Id_mata')
+names(tabela_junc_3000_basin)<-c('pct_basin','Id_basin')
+
+write.dbf(tabela_junc_3000_basin,"tabela_junc_3000_basin")
+write.dbf(tabela_junc_3000_mata,"tabela_junc_3000_mata")
+
+
+

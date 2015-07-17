@@ -1,0 +1,15 @@
+cd "E:\data_2015\___john\Tadeu_finlandia\sadas_grass\vects\Basins\temp"
+
+
+v.in.ogr dsn=mosaic_topodata_30m_extract_tif_basins_3000_30m_vect.shp out=mosaic_topodata_30m_extract_tif_basins_3000_30m_vect
+v.in.ogr dsn=mosaic_topodata_30m_extract_tif_5000_30m_vect.shp out=mosaic_topodata_30m_extract_tif_5000_30m_vect
+v.in.ogr dsn=mosaic_topodata_30m_extract_tif_10000_30m_vect.shp out=mosaic_topodata_30m_extract_tif_10000_30m_vect
+
+cd "E:\data_2015\___john\Tadeu_finlandia\sadas_grass\vects\Vegetation"
+r.in.gdal in=vegetacao_natural_cli_rast_30m.tif out=vegetacao_natural_cli_rast_30m_tif
+
+g.region rast=Mosaic_Topodata_30m_extract_tif_3000_30m
+r.mapcalc "Mosaic_Topodata_30m_extract_tif_3000_30m_bin=if(Mosaic_Topodata_30m_extract_tif_3000_30m>0,1,null())"
+
+r.series in=Mosaic_Topodata_30m_extract_tif_3000_30m_bin,vegetacao_natural_cli_rast_30m_tif out=Mosaic_Topodata_30m_extract_tif_3000_30m_bin_Soma method=sum
+g.remove rast=Mosaic_Topodata_30m_extract_tif_3000_30m_bin,Mosaic_Topodata_30m_extract_tif_3000_30m_bin_Soma

@@ -1,0 +1,41 @@
+cd "E:\data_2015\___john\Tadeu_finlandia\Mosaico_Topodata_30m"
+r.in.gdal in=Mosaic_Topodata_30m_extract.tif out=Mosaic_Topodata_30m_extract_tif
+g.region rast=Mosaic_Topodata_30m_extract_tif
+
+
+
+r.watershed elevation=Mosaic_Topodata_30m_extract_tif basin=Mosaic_Topodata_30m_extract_tif_10000_30m threshold=10000 --o -m
+r.watershed elevation=Mosaic_Topodata_30m_extract_tif basin=Mosaic_Topodata_30m_extract_tif_5000_30m threshold=5000 --o -m
+
+r.watershed elevation=Mosaic_Topodata_30m_extract_tif basin=Mosaic_Topodata_30m_extract_tif_3000_30m threshold=3000 --o -m
+r.watershed elevation=Mosaic_Topodata_30m_extract_tif basin=Mosaic_Topodata_30m_extract_tif_2000_30m threshold=2000 --o -m
+r.watershed elevation=Mosaic_Topodata_30m_extract_tif basin=Mosaic_Topodata_30m_extract_tif_1000_30m threshold=1000 --o -m
+r.watershed elevation=Mosaic_Topodata_30m_extract_tif basin=Mosaic_Topodata_30m_extract_tif_0500_30m threshold=500 --o -m
+
+#hidro
+
+r.fill.dir input=Mosaic_Topodata_30m_extract_tif elevation=Mosaic_Topodata_30m_extract_tif_elev direction=Mosaic_Topodata_30m_extract_tif_dir --o
+r.watershed -fa elevation=Mosaic_Topodata_30m_extract_tif_elev accumulation=Mosaic_Topodata_30m_extract_tif_elev_Acum_thr_1000 stream=streams-thr_1000 threshold=1000 -m --o
+r.watershed -fa elevation=Mosaic_Topodata_30m_extract_tif_elev accumulation=Mosaic_Topodata_30m_extract_tif_elev_Acum_thr_2000 stream=streams_thr_2000 threshold=2000 -m --o
+r.watershed -fa elevation=Mosaic_Topodata_30m_extract_tif_elev accumulation=Mosaic_Topodata_30m_extract_tif_elev_Acum_thr_3000 stream=streams_thr_3000 threshold=3000 -m --o
+r.watershed -fa elevation=Mosaic_Topodata_30m_extract_tif_elev stream=streams_thr_5000 threshold=5000 -m --o
+r.watershed -fa elevation=Mosaic_Topodata_30m_extract_tif_elev stream=streams_thr_10000 threshold=10000 -m --o
+
+
+cd "E:\data_2015\___john\Tadeu_finlandia\sadas_grass"
+
+outs=`g.mlist pattern="**"`
+for i in $outs
+do
+r.out.gdal in=$i out=$i".tif"
+done
+
+#remove -vects
+
+
+cd "E:\data_2015\___john\Tadeu_finlandia\sadas_grass\streams_tif"
+r.out.gdal in=streams_thr_5000 out=streams_thr_5000.tif
+r.out.gdal in=streams_thr_10000 out=streams_thr_10000.tif
+cd "E:\data_2015\___john\Tadeu_finlandia\sadas_grass\Basins_tif"
+r.out.gdal in=Mosaic_Topodata_30m_extract_tif_10000_30m out=Mosaic_Topodata_30m_extract_tif_10000_30m.tif
+r.out.gdal in=Mosaic_Topodata_30m_extract_tif_5000_30m out=Mosaic_Topodata_30m_extract_tif_5000_30m.tif
